@@ -1,12 +1,7 @@
-import { useState } from 'react'
+import Router from "./routes";
 
-
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <h1 className='text-red-500'>Vite + React</h1>
-  )
+    <Router />
+  );
 }
-
-export default App

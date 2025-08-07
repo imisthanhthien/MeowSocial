@@ -10,6 +10,8 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { FollowsModule } from './follows/follows.module';
 import { CommentsModule } from './comments/comments.module';
 import { AuthModule } from './auth/auth.module';
+import { UploadModule } from './upload/upload.module';
+
 
 @Module({
   imports: [
@@ -40,6 +42,7 @@ import { AuthModule } from './auth/auth.module';
     FollowsModule,
     CommentsModule,
     AuthModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [AppService],

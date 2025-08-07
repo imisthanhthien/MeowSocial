@@ -1,4 +1,65 @@
-import { Injectable } from '@nestjs/common';
-
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Comments } from 'src/entities/comments.entity';
+import { Repository } from 'typeorm';
+import { CreateCommentDto } from './dto/create-comment.dto';
+import { Users } from 'src/entities/users.entity';
+import { Posts } from 'src/entities/posts.entity';
 @Injectable()
-export class CommentsService {}
+export class CommentsService {
+  constructor(
+    @InjectRepository(Comments)
+    private readonly commentRepo: Repository<Comments>,
+     @InjectRepository(Posts)
+    private postRepo: Repository<Posts>,
+
+    @InjectRepository(Users)
+    private userRepo: Repository<Users>,
+  ) {}
+
+  async create(createCommentDto: CreateCommentDto) {
+    const {userId, postId ,content} = createCommentDto;
+    console.log('🧪 DTO:', createCommentDto);
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (!user) throw new NotFoundException('User not found');
+
+    const post = await this.postRepo.findOne({ where: { id: postId } });
+    if (!post) throw new NotFoundException('Post not found');
+
+    const comment = this.commentRepo.create({
+      user,
+      post,
+      content,
+    });
+
+    return this.commentRepo.save(comment);
+  }
+
+  async findAll() {
+    return this.commentRepo.find({ relations: ['user', 'post'] });
+  }
+
+  async findByPost(postId: number) {
+    return this.commentRepo.find({
+      where: { post: { id: postId } },
+      relations: ['user'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  async findById(id: number) {
+    return this.commentRepo.findOne({
+      where: { id },
+      relations: ['user', 'post'],
+    });
+  }
+
+  async update(id: number, content: string) {
+    await this.commentRepo.update(id, { content });
+    return this.findById(id);
+  }
+
+  async remove(id: number) {
+    return this.commentRepo.delete(id);
+  }
+}
