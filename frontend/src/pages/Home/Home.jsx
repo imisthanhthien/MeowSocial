@@ -29,36 +29,35 @@ export default function Home() {
   };
 
   return (
-    <div className="pt-20 px-4 md:px-8 bg-gray-100 min-h-screen">
-      <div className="max-w-3xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-purple-700">Newsfeed</h1>
+   <div className="bg-gradient-to-b from-white to-gray-100 min-h-screen pt-5 px-4 md:px-8">
+  <div className="max-w-2xl mx-auto space-y-10">
+    
+    {/* Form tạo bài viết */}
+    <div className="bg-white rounded-xl  max-w-xl w-full mx-auto">
+  <CreatePost onCreate={handleCreate} />
+</div>
 
-        {/* Form tạo bài viết */}
-        <CreatePost onCreate={handleCreate} />
-
-        {/* Hiển thị danh sách bài viết */}
-        {loading ? (
-          <p className="text-center text-gray-500">Đang tải bài viết...</p>
-        ) : (
-          <div className="space-y-6">
-            {Array.isArray(posts) && posts.length > 0 ? (
-              posts
-                .slice()
-                .reverse()
-                .map((post) => (
-                  <PostCard
-                    key={post.id}
-                    post={post}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                  />
-                ))
-            ) : (
-              <p className="text-center text-gray-500">Chưa có bài viết nào.</p>
-            )}
-          </div>
-        )}
-      </div>
+    {/* Danh sách bài viết */}
+    <div className="space-y-6">
+      {loading ? (
+        <p className="text-center text-gray-500 animate-pulse">Đang tải bài viết...</p>
+      ) : Array.isArray(posts) && posts.length > 0 ? (
+        posts
+          .slice()
+          .reverse()
+          .map((post) => (
+            <div
+              key={post.id}
+            >
+              <PostCard post={post} onEdit={handleEdit} onDelete={handleDelete} />
+            </div>
+          ))
+      ) : (
+        <p className="text-center text-gray-500">Chưa có bài viết nào.</p>
+      )}
     </div>
+  </div>
+</div>
+
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { uploadImage } from '../api/upload.api';
 import { useAuth } from "../contexts/AuthContext";
+import { FaPhotoVideo } from "react-icons/fa";
 
 export default function CreatePost({ onCreate }) {
   const [content, setContent] = useState('');
@@ -46,30 +47,30 @@ export default function CreatePost({ onCreate }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-4 rounded-xl shadow-md mb-6 w-full max-w-2xl mx-auto"
+      className="p-2 rounded-lg shadow-sm w-auto bg-white"
     >
-      {/* Phần trên: Avatar + ô nhập */}
-      <div className="flex items-start gap-3 mb-3">
+      {/* Avatar + input */}
+      <div className="flex items-center gap-3 mb-3">
         <img
           src={avatarUrl}
           alt="Avatar"
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
+          className="w-9 h-9 rounded-full object-cover"
         />
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="Bạn đang nghĩ gì thế?"
-          className="w-full border border-gray-300 rounded-2xl px-4 py-2 resize-none focus:outline-none focus:ring-1 focus:ring-purple-500 text-sm sm:text-base"
-          rows={3}
+          placeholder="Bạn đang nghĩ gì?"
+          className="w-full bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none"
+          rows={1}
         />
       </div>
 
-      {/* Xem trước ảnh */}
+      {/* Preview image */}
       {preview && (
         <img
           src={preview}
           alt="Preview"
-          className="rounded-lg max-w-full max-h-80 object-cover mb-3"
+          className="rounded-md max-w-full max-h-64 object-cover mb-2"
         />
       )}
 
@@ -81,24 +82,25 @@ export default function CreatePost({ onCreate }) {
         className="hidden"
       />
 
-      {/* Hàng dưới: Nút thêm ảnh + nút đăng */}
-      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center border-t pt-3 gap-3 sm:gap-0">
+      {/* Footer: action buttons */}
+      <div className="flex justify-between items-center border-t pt-2 mt-2">
         <button
           type="button"
           onClick={handleChooseFile}
-          className="flex items-center justify-center sm:justify-start space-x-2 text-purple-600 hover:bg-purple-100 px-3 py-2 rounded transition"
+          className="flex items-center gap-1 text-gray-600 text-sm hover:text-purple-600 transition"
         >
-          <span className="text-xl">📷</span>
-          <span className="font-medium text-sm">Ảnh/Video</span>
+          <FaPhotoVideo className="w-4 h-4 text-purple-600" />
+          <span>Ảnh/Video</span>
         </button>
 
         <button
           type="submit"
-          className="bg-purple-600 text-white px-5 py-2 rounded-full hover:bg-purple-700 transition text-sm font-medium self-end sm:self-auto"
+          className="bg-purple-600 text-white px-4 py-1.5 rounded-full hover:bg-purple-700 transition text-sm font-medium"
         >
-          Đăng bài
+          Đăng
         </button>
       </div>
     </form>
+
   );
 }

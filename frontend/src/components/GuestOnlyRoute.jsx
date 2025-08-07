@@ -8,7 +8,6 @@ const GuestOnlyRoute = ({ children }) => {
   if (user) {
     return <Navigate to="/" replace />; // Chuyển hướng về trang chủ nếu đã login
   }
-
   return children;
 };
 
