@@ -92,7 +92,7 @@ export default function Profile() {
         {/* Avatar */}
         <div className="relative">
           <img
-            src={preview || `${import.meta.env.VITE_API_BASE_URL}${'/default_avatar.jpg'}`}
+            src={preview || `${import.meta.env.VITE_API_BASE_URL}${'/uploads/default_avatar.jpg'}`}
             alt="Avatar"
             className="rounded-full w-24 h-24 sm:w-32 sm:h-32 object-cover ring-4 ring-white bg-gradient-to-tr from-pink-300 via-purple-400 to-yellow-300 p-1 shadow-lg transition-transform duration-300 group-hover:scale-105"
           />

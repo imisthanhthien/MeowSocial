@@ -19,7 +19,7 @@ export default function Navbar() {
 
   const avatarUrl = user?.avatarUrl
     ? `${import.meta.env.VITE_API_BASE_URL}${user.avatarUrl}`
-    : "https://i.pravatar.cc/150?img=32";
+     : `${import.meta.env.VITE_API_BASE_URL}${'/uploads/default_avatar.jpg'}` ;
 
   const handleLogout = () => {
     logout();
@@ -110,7 +110,7 @@ export default function Navbar() {
           </div>
 
           {/* Dropdown */}
-          
+
           {dropdownOpen && (
             <div className="absolute top-12 right-0 w-52 bg-white border border-pink-200 rounded-2xl shadow-lg z-50 overflow-hidden animate-fade-in">
               <Link

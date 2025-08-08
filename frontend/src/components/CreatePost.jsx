@@ -12,7 +12,7 @@ export default function CreatePost({ onCreate }) {
 
   const avatarUrl = user?.avatarUrl
     ? `${import.meta.env.VITE_API_BASE_URL}${user.avatarUrl}`
-    : `${import.meta.env.VITE_API_BASE_URL}${'/default_avatar.jpg'}` ;
+    : `${import.meta.env.VITE_API_BASE_URL}${'/uploads/default_avatar.jpg'}` ;
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
