@@ -5,25 +5,30 @@ import { Repository } from 'typeorm';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { Users } from 'src/entities/users.entity';
 import { Posts } from 'src/entities/posts.entity';
+import { NotificationsService } from 'src/notifications/notifications.service';
 @Injectable()
 export class CommentsService {
   constructor(
     @InjectRepository(Comments)
     private readonly commentRepo: Repository<Comments>,
-     @InjectRepository(Posts)
+    @InjectRepository(Posts)
     private postRepo: Repository<Posts>,
 
     @InjectRepository(Users)
     private userRepo: Repository<Users>,
-  ) {}
+    private notificationsService: NotificationsService,
+  ) { }
 
   async create(createCommentDto: CreateCommentDto) {
-    const {userId, postId ,content} = createCommentDto;
-    console.log('🧪 DTO:', createCommentDto);
+    const { userId, postId, content } = createCommentDto;
+
     const user = await this.userRepo.findOne({ where: { id: userId } });
     if (!user) throw new NotFoundException('User not found');
 
-    const post = await this.postRepo.findOne({ where: { id: postId } });
+    const post = await this.postRepo.findOne({
+      where: { id: postId },
+      relations: ['user'],
+    });
     if (!post) throw new NotFoundException('Post not found');
 
     const comment = this.commentRepo.create({
@@ -31,8 +36,27 @@ export class CommentsService {
       post,
       content,
     });
+    const savedComment = await this.commentRepo.save(comment);
+    const userIdNumber = Number(userId);
 
-    return this.commentRepo.save(comment);
+    if (post.user.id !== userId) {
+
+      const existingNoti = await this.notificationsService.findOneIdOnly({
+        type: 'comment',
+        sourceId: post.id,
+        actorId: userIdNumber,
+      });
+
+      if (!existingNoti) {
+        await this.notificationsService.create({
+          type: 'comment',
+          sourceId: post.id,
+          user: post.user,
+          actor: user,
+        });
+      }
+    }
+    return savedComment;
   }
 
   async findAll() {
@@ -60,6 +84,29 @@ export class CommentsService {
   }
 
   async remove(id: number) {
+    const comment = await this.commentRepo.findOne({
+      where: { id },
+      relations: ['user'],
+    });
+
+    if (!comment) {
+      throw new NotFoundException('Comment not found');
+    }
+
+    const notificationId = await this.notificationsService.findOneIdOnly({
+      type: 'comment',
+      sourceId: Number(id),
+      actorId: comment.user.id,
+    });
+    console.log('Check tìm notification:', {
+      type: 'comment',
+      sourceId: id,
+      actorId: comment.user.id
+    });
+
+    if (notificationId) {
+      await this.notificationsService.delete(notificationId);
+    }
     return this.commentRepo.delete(id);
   }
 }

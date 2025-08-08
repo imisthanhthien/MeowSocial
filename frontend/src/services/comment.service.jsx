@@ -1,4 +1,3 @@
-// src/services/comment.service.jsx
 import commentApi from '../api/comment.api';
 
 const commentService = {
@@ -23,14 +22,14 @@ const commentService = {
   },
 
   getCommentsByPostId: async (postId) => {
-  try {
-    const res = await commentApi.getByPostId(postId);
-    return res.data;
-  } catch (error) {
-    console.error(`❌ Error fetching comments for post ${postId}:`, error);
-    throw error;
-  }
-},
+    try {
+      const res = await commentApi.getByPostId(postId);
+      return res.data;
+    } catch (error) {
+      console.error(`❌ Error fetching comments for post ${postId}:`, error);
+      throw error;
+    }
+  },
 
   getCommentById: async (id) => {
     try {

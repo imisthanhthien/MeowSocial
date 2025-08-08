@@ -7,6 +7,6 @@ export class AppController {
 
   @Get('hello')
   getHello(): string {
-    return 'Xin chào từ NestJS!';
+    return 'Xin chào mình là Thiện. Cảm ơn bạn đã đọc :))))';
   }
 }

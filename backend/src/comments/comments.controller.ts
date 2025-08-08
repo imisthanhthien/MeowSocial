@@ -1,18 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Put,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put} from '@nestjs/common';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
 @Controller('comments')
 export class CommentsController {
-  constructor(private readonly commentsService: CommentsService) {}
+  constructor(private readonly commentsService: CommentsService) { }
 
   @Post()
   create(@Body() createCommentDto: CreateCommentDto) {
@@ -25,9 +17,9 @@ export class CommentsController {
   }
 
   @Get('post/:postId')
-findByPost(@Param('postId') postId: number) {
-  return this.commentsService.findByPost(+postId); // Phải trả về mảng
-}
+  findByPost(@Param('postId') postId: number) {
+    return this.commentsService.findByPost(+postId); // Phải trả về mảng
+  }
 
   @Get(':id')
   findOne(@Param('id') id: number) {

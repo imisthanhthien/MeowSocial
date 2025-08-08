@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  BadRequestException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/entities/users.entity';
 import { Repository } from 'typeorm';
@@ -15,9 +11,8 @@ export class UsersService {
   constructor(
     @InjectRepository(Users)
     private usersRepository: Repository<Users>,
-  ) {}
+  ) { }
 
-  //findById for User
   async findById(id: number): Promise<Partial<Users> | null> {
     return this.usersRepository.findOne({
       where: { id },
@@ -25,7 +20,6 @@ export class UsersService {
     });
   }
 
-  //findPublicProfile for User
   async findPublicProfile(id: number): Promise<Partial<Users>> {
     const user = await this.usersRepository.findOne({
       where: { id },
@@ -37,15 +31,13 @@ export class UsersService {
     return user;
   }
 
-  //updateProfile for User
   async updateProfile(id: number, dto: UpdateUserDto): Promise<void> {
-     console.log('DTO nhận được:', dto);
-     console.log('📌 ID nhận được:', id); // 👈 Thêm dòng này
-   const result = await this.usersRepository.update(id, dto);
-  console.log('Kết quả update:', result);
+    console.log('DTO nhận được:', dto);
+    console.log('📌 ID nhận được:', id); // 👈 Thêm dòng này
+    const result = await this.usersRepository.update(id, dto);
+    console.log('Kết quả update:', result);
   }
 
-  //changePassword for User
   async changePassword(id: number, dto: ChangePasswordDto): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user || !user.password) {
@@ -62,7 +54,6 @@ export class UsersService {
     await this.usersRepository.save(user);
   }
 
-  //deleteById for User
   async deleteById(id: number): Promise<void> {
     const user = await this.usersRepository.findOne({ where: { id } });
     if (!user) {
@@ -70,5 +61,4 @@ export class UsersService {
     }
     await this.usersRepository.delete(id);
   }
-  
 }

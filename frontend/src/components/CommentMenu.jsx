@@ -4,7 +4,6 @@ export default function CommentMenu({ commentId }) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef();
 
-  // Đóng menu khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -16,9 +15,6 @@ export default function CommentMenu({ commentId }) {
   }, []);
 
   const handleDelete = () => {
-    // gọi hàm xoá comment từ props hoặc context
-    console.log('Xoá comment:', commentId);
-    // ...
     setOpen(false);
   };
 
@@ -36,7 +32,6 @@ export default function CommentMenu({ commentId }) {
           >
             Xoá
           </button>
-          {/* Có thể thêm nút sửa ở đây */}
         </div>
       )}
     </div>

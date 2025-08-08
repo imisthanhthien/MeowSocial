@@ -10,6 +10,7 @@ const authService = {
     const response = await authApi.login({ email, password });
     console.log('📦 Dữ liệu phản hồi login:', response);
     const { access_token, user } = response.data;
+
     // Lưu token vào localStorage
     localStorage.setItem('access_token', access_token);
     localStorage.setItem('user', JSON.stringify(user));

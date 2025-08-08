@@ -1,5 +1,3 @@
-// src/services/commentApi.js
-
 import axiosClient from './axiosClient';
 
 const commentApi = {

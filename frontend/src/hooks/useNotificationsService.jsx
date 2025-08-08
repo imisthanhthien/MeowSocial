@@ -9,8 +9,11 @@ const useNotificationsService = (userId) => {
     try {
       setLoading(true);
       const res = await notificationsApi.getByUserId(userId);
-      setNotifications(res.data);
-    } finally {
+      setNotifications(res);
+    } catch (err) {
+      console.error('❌ Lỗi fetch notifications:', err);
+    }
+    finally {
       setLoading(false);
     }
   };
@@ -29,6 +32,8 @@ const useNotificationsService = (userId) => {
     await notificationsApi.create(data);
     fetchNotifications(); // refresh list
   };
+
+
 
   useEffect(() => {
     if (userId) fetchNotifications();

@@ -20,6 +20,6 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect('Xin chào mình là chủ của cái mạng xã hội này! Mình là Nguyễn Thành Thiện :))))');
   });
 });

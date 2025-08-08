@@ -12,7 +12,7 @@ export class FollowsService {
     private followsRepo: Repository<Follows>,
     @InjectRepository(Users)
     private usersRepo: Repository<Users>,
-  ) {}
+  ) { }
 
   async followUser(followerId: number, followingId: number) {
     if (followerId === followingId) {

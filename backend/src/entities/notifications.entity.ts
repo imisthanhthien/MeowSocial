@@ -30,7 +30,13 @@ export class Notifications {
   })
   createdAt: Date | null;
 
+  // 👤 Người nhận thông báo
   @ManyToOne(() => Users, (users) => users.notifications)
   @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
   user: Users;
+
+  // 🧍‍♂️ Người thực hiện hành động (like, comment, follow,...)
+  @ManyToOne(() => Users)
+  @JoinColumn([{ name: "actor_id", referencedColumnName: "id" }])
+  actor: Users;
 }

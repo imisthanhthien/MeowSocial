@@ -12,7 +12,7 @@ export default function CreatePost({ onCreate }) {
 
   const avatarUrl = user?.avatarUrl
     ? `${import.meta.env.VITE_API_BASE_URL}${user.avatarUrl}`
-    : "https://i.pravatar.cc/150?img=32";
+    : `${import.meta.env.VITE_API_BASE_URL}${'/default_avatar.jpg'}` ;
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -38,7 +38,6 @@ export default function CreatePost({ onCreate }) {
     if (onCreate) {
       await onCreate({ content, imageUrl });
     }
-
     setContent('');
     setFile(null);
     setPreview(null);
@@ -47,33 +46,34 @@ export default function CreatePost({ onCreate }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="p-2 rounded-lg shadow-sm w-auto bg-white"
+      className="p-4 rounded-2xl shadow-md w-full max-w-xl mx-auto bg-white border border-pink-100"
     >
-      {/* Avatar + input */}
-      <div className="flex items-center gap-3 mb-3">
+      {/* Avatar + Input */}
+      <div className="flex items-start gap-3 mb-3">
         <img
           src={avatarUrl}
           alt="Avatar"
-          className="w-9 h-9 rounded-full object-cover"
+          className="w-10 h-10 rounded-full object-cover ring-2 ring-pink-200"
         />
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Bạn đang nghĩ gì?"
-          className="w-full bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-purple-500 resize-none"
-          rows={1}
+          className="w-full bg-pink-50 rounded-xl px-4 py-2 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-pink-300 resize-none shadow-inner transition"
+          rows={2}
         />
       </div>
 
-      {/* Preview image */}
+      {/* Preview Image */}
       {preview && (
         <img
           src={preview}
           alt="Preview"
-          className="rounded-md max-w-full max-h-64 object-cover mb-2"
+          className="rounded-xl max-w-full max-h-64 object-cover mb-3 border border-pink-100 shadow-sm"
         />
       )}
 
+      {/* File Input (Hidden) */}
       <input
         type="file"
         ref={fileInputRef}
@@ -82,20 +82,20 @@ export default function CreatePost({ onCreate }) {
         className="hidden"
       />
 
-      {/* Footer: action buttons */}
-      <div className="flex justify-between items-center border-t pt-2 mt-2">
+      {/* Footer Buttons */}
+      <div className="flex justify-between items-center border-t pt-3 mt-3">
         <button
           type="button"
           onClick={handleChooseFile}
-          className="flex items-center gap-1 text-gray-600 text-sm hover:text-purple-600 transition"
+          className="flex items-center gap-2 text-gray-500 hover:text-pink-600 transition text-sm font-medium"
         >
-          <FaPhotoVideo className="w-4 h-4 text-purple-600" />
-          <span>Ảnh/Video</span>
+          <FaPhotoVideo className="w-5 h-5 text-pink-500" />
+          <span>Thêm ảnh/video</span>
         </button>
 
         <button
           type="submit"
-          className="bg-purple-600 text-white px-4 py-1.5 rounded-full hover:bg-purple-700 transition text-sm font-medium"
+          className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-full text-sm font-semibold shadow-md transition"
         >
           Đăng
         </button>

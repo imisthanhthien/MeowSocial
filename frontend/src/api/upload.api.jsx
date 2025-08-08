@@ -1,4 +1,3 @@
-// src/api/upload.api.js
 import axiosClient from './axiosClient';
 
 export const uploadImage = async (file) => {
@@ -8,7 +7,7 @@ export const uploadImage = async (file) => {
   try {
     const response = await axiosClient.post('/upload', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data', // override header cho form-data
+        'Content-Type': 'multipart/form-data', 
       },
     });
 
